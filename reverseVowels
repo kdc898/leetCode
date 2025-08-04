@@ -1,0 +1,30 @@
+class Solution {
+public:
+    string reverseVowels(string s) {
+        string vowels = "aeiouAEIOU";
+        int back = s.length() - 1;
+        int front = 0;
+        while(front < back){
+            //find the first vowel
+            while(front < back && !vowels.contains(s[front])){
+                front++;
+            }
+            //find the last vowel
+            while(front < back && !vowels.contains(s[back])){
+                back--;
+            }
+            //swap
+            char temp = s[front];
+            s[front] = s[back];
+            s[back] = temp;
+            front++;
+            back--;        
+        }
+        return s;
+    }
+};
+/*
+  *Given a string s, reverse only all the vowels in the string and return it.
+
+  *The vowels are 'a', 'e', 'i', 'o', and 'u', and they can appear in both lower and upper cases, more than once.
+*/
