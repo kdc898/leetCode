@@ -1,15 +1,20 @@
 class Solution {
     public double findMaxAverage(int[] nums, int k) {
         double maxSum = 0;
-        for(int i = 0; i <= nums.length - k; i++){
-            double currentAvg = 0;
-            double total = 0;
-            for(int j = 0; j < k; j++){
-                total +=  nums[(i + j)];
-            }
-            //i==0 is for edge case of maximum sum being negative, initialize it as the first sum
-            if(total > maxSum || i == 0){
-                maxSum = total;
+        double currSum = 0;
+        //find sum of first k elements
+        for(int i = 0; i < k; i ++){
+            currSum += nums[i];
+        }
+        maxSum = currSum;
+        //now slide window over remaining numbers
+        for(int i = k; i < nums.length; i++){
+            //subtract left element of window and add right element
+            currSum -= nums[i-k];
+            currSum += nums[i];
+
+            if(currSum > maxSum){
+                maxSum = currSum;
             } 
         }
         return maxSum/k;
@@ -22,4 +27,3 @@ class Solution {
   *Find a contiguous subarray whose length is equal to k that has the maximum average value and return this value. Any answer with a calculation error less than 10-5 will be accepted.
 */
 
-//Note: this is not time optimized and exceeded time limit on submittal for large test case
