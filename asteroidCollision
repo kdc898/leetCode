@@ -1,0 +1,45 @@
+/*
+  *KDC 8/7/2025
+  *We are given an array asteroids of integers representing asteroids in a row. The indices of the asteriod in the array represent their relative position in space.
+
+  *For each asteroid, the absolute value represents its size, and the sign represents its direction (positive meaning right, negative meaning left). Each asteroid moves at the same speed.
+
+  *Find out the state of the asteroids after all collisions. If two asteroids meet, the smaller one will explode. If both are the same size, both will explode. Two asteroids moving in the same direction will never meet.
+*/
+
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.lang.Math;
+class Solution {
+    public int[] asteroidCollision(int[] asteroids) {
+        Deque<Integer> asteroidQueue = new ArrayDeque<Integer>();
+        for(int asteroid : asteroids){
+            boolean survives = true;
+            //check for conditions where we would change existing stack or not add new asteroid
+            while(!asteroidQueue.isEmpty() && asteroid < 0 && asteroidQueue.peek() > 0){
+                //asteroid is larger than prev and will destroy it
+                if(asteroidQueue.peek() < -asteroid){
+                    asteroidQueue.pop();
+                    continue;
+                }
+                //asteroid is same size as prev and they will destroy each other
+                if(asteroidQueue.peek() == -asteroid){
+                    asteroidQueue.pop();
+                    survives = false;
+                }
+                //asteroid is smaller than prev and will be destroyed
+                survives = false;
+                break;
+            }
+            if(survives){
+                asteroidQueue.push(asteroid);  
+            }          
+        }
+        //create an array and put all queue elements in it
+        int[] asteroidArray = new int[asteroidQueue.size()];
+        for(int i = asteroidQueue.size() - 1; i >= 0; i--){
+            asteroidArray[i] = asteroidQueue.pop();
+        }
+        return asteroidArray;
+    }
+}
