@@ -1,0 +1,41 @@
+/**
+ * KDC 8/8/25
+ * You are given the head of a linked list. Delete the middle node, and return the head of the modified linked list.
+
+ * The middle node of a linked list of size n is the ⌊n / 2⌋th node from the start using 0-based indexing, where ⌊x⌋ denotes the largest integer less than or equal to x.
+ * 
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode deleteMiddle(ListNode head) {
+        Integer listSize = 0;
+        ListNode curr = head;
+        //get the size of the linked list
+        while(curr != null){
+            listSize ++;
+            curr = curr.next;
+        }
+        Integer midNode = listSize/2;
+        curr = head;
+        ListNode prev = null;
+        //advance to list until mid node
+        for(int i = 0; i < midNode; i++){
+            prev = curr;
+            curr = curr.next;
+        }
+        if(prev != null){
+            prev.next = prev.next.next;
+        }
+        else{
+            return null;
+        }  
+        return head;
+    }
+}
