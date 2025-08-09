@@ -39,3 +39,4 @@ class Solution {
         return head;
     }
 }
+//not time optimized. Could be improved by using a two-pointer approach rather than second loop to find the midpoint
