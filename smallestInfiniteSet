@@ -1,0 +1,38 @@
+/*
+ *You have a set which contains all positive integers [1, 2, 3, 4, 5, ...].
+
+ *Implement the SmallestInfiniteSet class:
+
+    *SmallestInfiniteSet() Initializes the SmallestInfiniteSet object to contain all positive integers.
+    *int popSmallest() Removes and returns the smallest integer contained in the infinite set.
+    *void addBack(int num) Adds a positive integer num back into the infinite set, if it is not already in the infinite set.
+*/
+
+class SmallestInfiniteSet {
+    Set<Integer> popped = new HashSet<>();
+    public SmallestInfiniteSet() {
+        //nothing to initialize as we are working in reverse and keeping track of removed numbers only
+    }
+    
+    public int popSmallest() {
+       //start with smallest possible list entry and increment until we find one that hasn't yet been popped
+       int smallest = 1;
+       while(popped.contains(smallest)){
+        smallest++;
+       } 
+       popped.add(smallest);
+       return smallest;
+    }
+    
+    public void addBack(int num) {
+        //remove from the popped list, then treated as part of set again
+        popped.remove(num);
+    }
+}
+
+/**
+ * Your SmallestInfiniteSet object will be instantiated and called as such:
+ * SmallestInfiniteSet obj = new SmallestInfiniteSet();
+ * int param_1 = obj.popSmallest();
+ * obj.addBack(num);
+ */
