@@ -1,0 +1,38 @@
+/*
+ *Given two 0-indexed integer arrays nums1 and nums2, return a list answer of size 2 where:
+
+    *answer[0] is a list of all distinct integers in nums1 which are not present in nums2.
+    *answer[1] is a list of all distinct integers in nums2 which are not present in nums1.
+
+ *Note that the integers in the lists may be returned in any order.
+*/
+class Solution {
+    public List<List<Integer>> findDifference(int[] nums1, int[] nums2) {
+        Set<Integer> set1 = new HashSet<>();
+        Set<Integer> set2 = new HashSet<>();
+        for(Integer num : nums1){
+            set1.add(num);
+        }
+        for(Integer num : nums2){
+            set2.add(num);
+        }
+        Set<Integer> onlySet1 = new HashSet<>();
+        Set<Integer> onlySet2 = new HashSet<>();
+        for(Integer num : nums1){
+            if(!set2.contains(num)){
+                onlySet1.add(num);
+            }
+        }
+        for(Integer num : nums2){
+            if(!set1.contains(num)){
+                onlySet2.add(num);
+            }
+        }
+        ArrayList<Integer> list1 = new ArrayList<>(onlySet1);
+        ArrayList<Integer> list2 = new ArrayList<>(onlySet2);
+        List<List<Integer>> ret = new ArrayList<List<Integer>>();
+        ret.add(list1);
+        ret.add(list2);
+        return ret;
+    }
+}
