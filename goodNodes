@@ -1,0 +1,50 @@
+/**
+ *Given a binary tree root, a node X in the tree is named good if in the path from root to X there are no nodes with a value greater than X.
+
+ *Return the number of good nodes in the binary tree.
+*/
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public int goodNodes(TreeNode root) {
+        return goodNodes(root, root.val);
+    }
+    //recursive. pass in max and node
+    public int goodNodes(TreeNode root, int maxval){
+        int counter = 0;
+        //this node is not good, do not increment counter
+        if(root.val < maxval){
+            //return 0;
+        }
+        //this is a good node. increment counter
+        else if(root.val >= maxval){
+            counter++;
+        }
+        //update max val
+        if(root.val > maxval){
+            maxval = root.val;
+        }
+        //recursion
+        if(root.left != null){
+            counter += goodNodes(root.left, maxval);
+        }
+        if(root.right != null){
+            counter += goodNodes(root.right, maxval);
+        }
+        return counter;
+    }
+}
