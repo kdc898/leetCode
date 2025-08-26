@@ -1,0 +1,64 @@
+/**
+Given a root node reference of a BST and a key, delete the node with the given key in the BST. Return the root node reference (possibly updated) of the BST.
+
+Basically, the deletion can be divided into two stages:
+
+  1.  Search for a node to remove.
+  2.  If the node is found, delete the node.
+
+*/
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public TreeNode deleteNode(TreeNode root, int key) {
+        //recursive solution. if root is null, return null
+        if(root == null){
+            return null;
+        }
+        int rootval = root.val;
+
+        if(key < rootval){//left path
+            root.left = deleteNode(root.left, key);
+            return root;
+        }
+        else if(key > rootval){//right path
+            root.right = deleteNode(root.right, key);
+            return root;
+        }
+
+        //this is the node to be deleted
+            //does this have zero, one, or two children
+            if(root.left == null && root.right == null){
+                return null;
+            }
+            else if(root.left == null){
+                return root.right;
+            }
+            else if(root.right == null){
+                return root.left;
+            }
+            //if there are two children, find the successor: rightmost node of left tree
+            TreeNode successor = root.left;
+            while(successor.right != null){
+                successor = successor.right;
+            }
+            //set the new values
+            successor.right = root.right;
+            root = root.left;
+            return root;
+    }
+}
