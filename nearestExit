@@ -1,0 +1,53 @@
+/*
+ *KDC 8/27/25
+ *LeetCode 1926. Nearest Exit from Entrance in Maze
+
+You are given an m x n matrix maze (0-indexed) with empty cells (represented as '.') and walls (represented as '+'). You are also given the entrance of the maze, where entrance = [entrancerow, entrancecol] denotes the row and column of the cell you are initially standing at.
+
+In one step, you can move one cell up, down, left, or right. You cannot step into a cell with a wall, and you cannot step outside the maze. Your goal is to find the nearest exit from the entrance. An exit is defined as an empty cell that is at the border of the maze. The entrance does not count as an exit.
+
+Return the number of steps in the shortest path from the entrance to the nearest exit, or -1 if no such path exists.
+*/
+class Solution {
+    public int nearestExit(char[][] maze, int[] entrance) {
+        //start with entrance, then queue all adjacent cells
+        //if adjacent cell is empty, check if its an exit
+        int m = maze.length;
+        int n = maze[0].length;
+        int[][] directions = {{0,1}, {1,0}, {0,-1}, {-1,0}};
+        boolean[][] visited = new boolean[m][n];
+        Queue<int[]> queue = new LinkedList<>();
+        int steps = 0;
+        //enq the entrance and set as visited 
+        queue.offer(entrance);
+        visited[entrance[0]][entrance[1]] = true;
+        while(!queue.isEmpty()){
+            steps++;
+            int size = queue.size();
+            for(int i = 0; i < size; i++){
+                //get first element from q
+                int[] cell = queue.poll();
+                int row = cell[0];
+                int column = cell[1];
+                for(int[] direction : directions){
+                    int newRow = row + direction[0];
+                    int newCol = column + direction[1];
+                    //check if new row/col combo is within bounds, not visited, and is an open space
+                    boolean inBounds = newRow >= 0 && newRow < m && newCol >= 0 && newCol < n;
+                    if(inBounds){
+                        if(!visited[newRow][newCol] && maze[newRow][newCol] == '.'){
+                            //is this an exit?
+                            if(newRow == 0 || newRow == m - 1 || newCol == 0 || newCol == n - 1){
+                                return steps;
+                            }
+                            //if not exit, add to queue and mark as visited
+                            visited[newRow][newCol] = true;
+                            queue.offer(new int[]{newRow, newCol});
+                        }
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+}
